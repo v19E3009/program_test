@@ -33,6 +33,27 @@ fi
 
 #echo $@
 
+cat $@ | split -l 5000000 splited_access_log
+for FILE in splited_access_log*; do
+    if [ "$FLG_T" = "TRUE" ]; then
+        cat FILE | awk -v AFTER="${AFTER}" -v BEFORE="${BEFORE}" ' AFTER < $4 && $4 <= BEFORE '|\\
+        awk -F'[ :]' '{print $4,$5}' | sort | uniq -c | awk -F ' ' '{print $2,$1}' > Time_sone-$FILE
+        cat FILE | awk -v AFTER="${AFTER}" -v BEFORE="${BEFORE}" ' AFTER < $4 && $4 <= BEFORE '|\\
+        awk -F'[ :]' '{print $1}' | sort | uniq -c | sort -nr | awk -F ' ' '{print $2,$1}' > Remote_host-$FILE
+    else
+        cat < $Time_specified_file | awk -F'[ :]' '{print $4,$5}' | \
+        sort | uniq -c | awk -F' ' '{print $2,$1}' > Time_sone-$FILE
+        echo $Time_specified_file | awk '{print $1}' | sort | uniq -c |\
+        sort -nr | awk -F' ' '{print $2,$1}' > Remote_host-$FILE
+
+    
+done
+wait
+echo "Number of accesses for each time zone"
+cat Time_zone-splited_access_log* | awk '{a[$1] += $2} END{for(k in a) print k, a[k];}'
+echo "Nuber of accesses by remote host"
+cat Remote_host-splited_access_log* | awk '{b[$1] += $2} END{for(k in b) print k, b[k];}'
+
 if [ "$FLG_T" = "TRUE" ]; then
     #echo $AFTER
     #echo $BEFORE
