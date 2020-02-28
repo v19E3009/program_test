@@ -13,9 +13,13 @@ Apacheログ用のアクセスログ解析プログラム
 #Usage
 
 `sh Analyze_access_log.sh <Input FILE...>
+
  sh Analyze_access_log.sh [-t] (start_time-end_time) <Input FILE...>
 `
+
 コマンド例)
+
 `sh Analyze_access_log.sh /var/log/httpd/access_log*
+
  sh Analyze_access_log.sh -t 01/1/2020:00:00:00-30/1/2020:00:00:00
 `
