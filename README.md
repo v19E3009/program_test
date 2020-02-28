@@ -1,4 +1,13 @@
-# programing_test
-test
 
-Hello! I am Kenta.
+Analyze_access_log
+=======================
+
+#Oerview
+Apacheログ用のアクセスログ解析プログラム
+以下の観点から，アクセス件数を集計する
+- 各時間帯毎のアクセス件数を知りたい
+- リモートホスト別のアクセス件数:
+アクセスの多いリモートホストの順にアクセス件数の一覧を表示する．
+
+#Usage
+`hellow`
